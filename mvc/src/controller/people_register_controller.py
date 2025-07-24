@@ -1,15 +1,20 @@
 from typing import Dict
+from src.model.entities.person import Person
+from src.model.repository.person_repository import PersonRepository
 
 class PeopleRegisterController:
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self,person_repository: PersonRepository) -> None:
+        self.person_repository = person_repository
 
     def register(self,new_person_informations: Dict) -> Dict:
         try:
             # Método para validar os dados.
             self.__validate_fields(new_person_informations)
-            # Enviar para  models para cadastro de dados
+            # Cria o objeto Person()
+            person : Person = self.__build_person(new_person_informations)
+            # Enviar para  o repository para cadastrar a pessoa
+            self.person_repository.insert_person(person)
             response = self.__format_response(new_person_informations)
             return {"sucess" : True,"message" : response}
         except Exception as exception:
@@ -42,3 +47,10 @@ class PeopleRegisterController:
             "type" : "Person",
             "attributes" : new_person_informations
         }
+    
+    def __build_person(self,new_person_informations) -> Person:
+        return Person(first_name=new_person_informations["first_name"],
+                      last_name=new_person_informations["last_name"],
+                      age=int(new_person_informations["age"]),
+                      heigth=float(new_person_informations["heigth"])
+                      )

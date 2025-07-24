@@ -1,4 +1,23 @@
-class Person:
+import sqlalchemy
+from sqlalchemy import create_engine, String,Integer,Float
+from sqlalchemy.orm import Mapped,mapped_column,sessionmaker
+from src.database.connection import Base
+
+# 2. Mapear a classe person:
+class Person(Base):
+    
+    # Nome na tabela no banco de dados
+    __tablename__ = "tb_person"
+    
+    # Mapeando as colunas DIRETAMENTE para os atributos com __
+    id: Mapped[int] = mapped_column(primary_key=True)
+    __first_name: Mapped[str] = mapped_column("first_name",String(50))
+    __last_name: Mapped[str] = mapped_column("last_name",String(50))
+    __age: Mapped[Integer] = mapped_column("age",Integer)
+    __heigth: Mapped[Float] = mapped_column("heigth",Float)
+
+    
+
     def __init__(self,first_name : str, last_name : str, age: int, heigth: float) -> None:
         self.set_first_name(first_name)
         self.set_last_name(last_name)

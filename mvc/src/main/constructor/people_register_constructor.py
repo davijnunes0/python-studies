@@ -1,11 +1,14 @@
 from src.views.people_register_view import PeopleRegisterView
 from src.controller.people_register_controller import PeopleRegisterController
+from src.model.repository.person_repository import PersonRepository
 
 def people_register_constructor():
     # Criamos um Objeto que armazena os estados é metodos da classe PeopleRegisterView().
     people_register_view :  PeopleRegisterView = PeopleRegisterView()  
+    # Criamos um Objeto que armazena os estados é metodos da classe PeopleRepository
+    person_repository: PersonRepository = PersonRepository()
     # Criamos um objeto que armazena os estados é metodo da classe PeopleRegisterController
-    people_register_controller : PeopleRegisterController = PeopleRegisterController()
+    people_register_controller : PeopleRegisterController = PeopleRegisterController(person_repository)
     # Pegamos as informações retornadas pela view.
     new_person_information : dict[str,str] = people_register_view.register_person_view()
     # Passamos os dados da view <-> para o controller para cadastrar a pessoa.

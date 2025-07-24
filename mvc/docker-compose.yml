@@ -1,0 +1,42 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  # Serviço da sua aplicação Python
+  app:
+    build: .
+    container_name: "app-py"
+    # A variável de ambiente que a SUA APLICAÇÃO usará para se conectar.
+
+    # Note que o host é 'db', o nome do serviço do banco.
+    environment:
+      - DATABASE_URL=postgresql://postgres:12345@db:5432/sisu
+    ports:
+      - "8000:8000" # Exponha a porta se sua app for uma API
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Serviço do banco de dados PostgreSQL
+  db:
+    image: postgres:15-alpine
+    # As variáveis de ambiente que o POSTGRES usa para se configurar na primeira vez que roda.
+    # Os valores devem corresponder aos da URL acima.
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=sisu
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432" # Mapeia a porta para que você possa conectar da sua máquina local, se precisar
+    # --- ADICIONE ESTA SEÇÃO ---
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d sisu"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
