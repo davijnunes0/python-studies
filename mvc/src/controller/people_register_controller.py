@@ -15,6 +15,7 @@ class PeopleRegisterController:
             person : Person = self.__build_person(new_person_informations)
             # Enviar para  o repository para cadastrar a pessoa
             self.person_repository.insert_person(person)
+            # Retorna a resposta para view de uma maneira formatada é concisa.
             response = self.__format_response(new_person_informations)
             return {"sucess" : True,"message" : response}
         except Exception as exception:
