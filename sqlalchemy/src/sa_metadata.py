@@ -25,6 +25,7 @@ table = sa.Table("tb_comments",
 )
 metadata.create_all(engine)
 
+
 inspect = sa.inspect(engine)
 # Pega todos os nomes na tabela do banco de dados
 print(inspect.get_table_names())
