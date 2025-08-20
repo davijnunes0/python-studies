@@ -16,7 +16,7 @@ class PeopleFinderController:
             response = self.__format_response(person)
             return {"sucess" : True,"message": response}
         except Exception as exception:
-            return {"sucess": False,"error" : str(Exception)}
+            return {"sucess": False,"error" : str(exception)}
     
     def __validate_fields(self,person_finder_informations: Dict) -> None:
         if not isinstance(person_finder_informations["first_name"],str):        
@@ -30,8 +30,8 @@ class PeopleFinderController:
             "count" : 1,
             "type" : "Person",
             "infos":{
-                "first_name" : person.get_first_name(),
-                "last_name" : person.get_last_name()
+                "first_name" : person.first_name,
+                "last_name" : person.last_name
             }
         }
     

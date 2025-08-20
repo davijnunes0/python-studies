@@ -19,6 +19,22 @@ class PeopleRegisterView(object):
             "heigth" : heigth
         }
     
+    def update_person_view(self) -> Dict[str,str]:
+        os.system("clear")
+        print("Digite os dados da pessoa que deseja cadastrar: ")
+        id_person : str = input("Id person: ")
+        first_name : str = input("First name: ").strip().title()
+        last_name : str = input("Last name: ").strip().title()
+        age : str = input("Age: ").strip()
+        heigth : str = input("Heigth: ").strip()
+
+        return {
+            "id_person": id_person,
+            "first_name": first_name,
+            "last_name": last_name,
+            "age": age,
+            "heigth": heigth,
+        }
 
     def register_person_sucess(self,message : Dict) -> None:
         os.system("clear")

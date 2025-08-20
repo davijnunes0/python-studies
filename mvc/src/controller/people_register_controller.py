@@ -20,6 +20,18 @@ class PeopleRegisterController:
             return {"sucess" : True,"message" : response}
         except Exception as exception:
             return {"sucess" : False,"error" : str(exception)}
+        
+    def update(self,new_person_informations: Dict) -> Dict:
+        try:
+            # Valida os dados recebidos da view
+            self.__validate_fields(new_person_informations)
+            # Manda o dicionário com os dados para atualizar o usuário
+            self.person_repository.update_person(new_person_informations)
+            # Formata a resposta para retornamos para a view
+            response = self.__format_response(new_person_informations)
+            return {"sucess": True,"message": response}
+        except Exception as exception:
+            return {"sucess": False,"error": str(exception)}
     def __validate_fields(self,new_person_informations: Dict) -> None:
         
         # Valida o primeiro nome da pessoa.
@@ -50,8 +62,8 @@ class PeopleRegisterController:
         }
     
     def __build_person(self,new_person_informations) -> Person:
-        return Person(first_name=new_person_informations["first_name"],
-                      last_name=new_person_informations["last_name"],
-                      age=int(new_person_informations["age"]),
-                      heigth=float(new_person_informations["heigth"])
+        return Person(first_name = new_person_informations["first_name"],
+                      last_name = new_person_informations["last_name"],
+                      age = int(new_person_informations["age"]),
+                      heigth = float(new_person_informations["heigth"])
                       )
